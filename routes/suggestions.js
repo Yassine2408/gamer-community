@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Suggestion = require('../models/Suggestion');
 const axios = require('axios'); // Make sure to install axios: npm install axios
-const functions = require('firebase-functions');
 
 // Middleware to check if user is authenticated
 const isAuthenticated = (req, res, next) => {
@@ -47,7 +46,7 @@ router.post('/', isAuthenticated, async (req, res) => {
         }
 
         // Fetch game details from RAWG API
-        const apiKey = functions.config().rawg.api_key; // Make sure to set this in your environment variables
+        const apiKey = process.env.RAWG_API_KEY;
         if (!apiKey) {
             throw new Error('RAWG API key is not set');
         }
