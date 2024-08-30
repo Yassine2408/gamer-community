@@ -65,9 +65,31 @@ app.use('/api/games', require('./routes/games'));
 app.use('/api/suggestions', suggestionsRouter);
 app.use('/api/admin', require('./routes/admin'));
 
-// Add a catch-all route for undefined routes
+// Add routes for your main pages
+app.get('/', (req, res) => {
+    res.render('index'); // Assuming you have an index.ejs file
+});
+
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+
+app.get('/register', (req, res) => {
+    res.render('register');
+});
+
+// Keep your chat route
+app.get('/chat', (req, res) => {
+    if (req.isAuthenticated()) {
+        res.render('chat');
+    } else {
+        res.redirect('/login');
+    }
+});
+
+// Move this catch-all route to the end
 app.use((req, res) => {
-    res.status(404).send('404 - Not Found');
+    res.status(404).render('404'); // Create a 404.ejs file for not found pages
 });
 
 // Chat route with authentication check
