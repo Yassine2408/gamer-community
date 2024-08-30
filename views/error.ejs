@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Gamer Community</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <%- include('partials/nav') %>
+    </header>
+
+    <main>
+        <h1>Error</h1>
+        <p><%= error %></p>
+        <% if (details) { %>
+            <p>Details: <%= details %></p>
+        <% } %>
+        <% if (typeof stack !== 'undefined' && stack) { %>
+            <pre><%= stack %></pre>
+        <% } %>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Gamer Community. All rights reserved.</p>
+    </footer>
+</body>
+</html>

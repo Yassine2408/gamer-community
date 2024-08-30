@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= game.name %> - Gamer Community</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <%- include('partials/nav') %>
+    </header>
+
+    <main>
+        <h1><%= game.name %></h1>
+        <img src="<%= game.background_image %>" alt="<%= game.name %>" style="max-width: 400px;">
+        <p>Rating: <%= game.rating %></p>
+        <p>Released: <%= game.released %></p>
+        <p>Description: <%= game.description_raw %></p>
+        
+        <h2>Genres</h2>
+        <ul>
+            <% game.genres.forEach(genre => { %>
+                <li><%= genre.name %></li>
+            <% }); %>
+        </ul>
+
+        <h2>Platforms</h2>
+        <ul>
+            <% game.platforms.forEach(platform => { %>
+                <li><%= platform.platform.name %></li>
+            <% }); %>
+        </ul>
+    </main>
+
+    <footer>
+        <!-- Include your footer content -->
+    </footer>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

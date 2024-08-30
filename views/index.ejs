@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamer Community - Your Ultimate Gaming Hub</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <%- include('partials/nav') %>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Welcome to Gamer Community</h1>
+                <p>Your ultimate destination for gaming enthusiasts</p>
+                <a href="/register" class="cta-button">Join Now</a>
+            </div>
+        </section>
+
+        <section class="features">
+            <h2>What We Offer</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <i class="fas fa-gamepad"></i>
+                    <h3>Discover Games</h3>
+                    <p>Explore new and popular games across all platforms</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-comments"></i>
+                    <h3>Community Chat</h3>
+                    <p>Connect with gamers in real-time discussions</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3>Game Suggestions</h3>
+                    <p>Share and vote on game recommendations</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-star"></i>
+                    <h3>Reviews</h3>
+                    <p>Read and write in-depth game reviews</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="community-stats">
+            <h2>Our Thriving Community</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">10,000+</span>
+                    <span class="stat-label">Active Members</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">5,000+</span>
+                    <span class="stat-label">Games Discussed</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">2,500+</span>
+                    <span class="stat-label">Daily Active Users</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured-games">
+            <h2>Top Rated Games</h2>
+            <div class="games-slider">
+                <% if (highRatedGames && highRatedGames.length > 0) { %>
+                    <% highRatedGames.forEach(game => { %>
+                        <div class="game-card">
+                            <img src="<%= game.background_image %>" alt="<%= game.name %>">
+                            <div class="game-info">
+                                <h3><%= game.name %></h3>
+                                <p>Rating: <%= game.rating %></p>
+                                <a href="/games/<%= game.id %>" class="game-link">View Details</a>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p>No high-rated games available at the moment.</p>
+                <% } %>
+            </div>
+        </section>
+
+        <section class="cta">
+            <h2>Ready to Level Up Your Gaming Experience?</h2>
+            <p>Join our community today and start connecting with gamers from around the world!</p>
+            <a href="/register" class="cta-button">Sign Up Now</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>Gamer Community is the ultimate hub for gaming enthusiasts to connect, share, and explore.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="/games">Games</a></li>
+                    <li><a href="/chat">Community Chat</a></li>
+                    <li><a href="/suggestions">Game Suggestions</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Gamer Community. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

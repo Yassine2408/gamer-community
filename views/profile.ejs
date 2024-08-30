@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= user.username %>'s Profile - Gamer Community</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <%- include('partials/nav') %>
+    </header>
+
+    <main class="profile-container">
+        <section class="profile-header">
+            <div class="profile-avatar">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <h1><%= user.username %>'s Profile</h1>
+            <p class="member-since">Member since <%= user.createdAt.toDateString() %></p>
+        </section>
+
+        <div class="profile-content">
+            <section class="profile-info">
+                <h2><i class="fas fa-info-circle"></i> User Information</h2>
+                <p><strong>Email:</strong> <%= user.email %></p>
+                <p><strong>Bio:</strong> <%= user.bio || 'No bio provided' %></p>
+                <p><strong>Favorite Game:</strong> <%= user.favoriteGame || 'Not specified' %></p>
+                <p><strong>Favorite Genres:</strong> <%= user.favoriteGenres ? user.favoriteGenres.join(', ') : 'Not specified' %></p>
+                <p><strong>Preferred Platform:</strong> <%= user.preferredPlatform || 'Not specified' %></p>
+                <p><strong>Average Gaming Time:</strong> <%= user.averageGamingTime || 'Not specified' %></p>
+            </section>
+
+            <section class="profile-stats">
+                <h2><i class="fas fa-chart-bar"></i> Gaming Stats</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <i class="fas fa-star"></i>
+                        <span class="stat-value"><%= gamesRated %></span>
+                        <span class="stat-label">Games Rated</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-comment"></i>
+                        <span class="stat-value"><%= reviewsWritten %></span>
+                        <span class="stat-label">Reviews Written</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-lightbulb"></i>
+                        <span class="stat-value"><%= suggestionsMade %></span>
+                        <span class="stat-label">Suggestions Made</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-trophy"></i>
+                        <span class="stat-value"><%= user.rank || 'Newcomer' %></span>
+                        <span class="stat-label">Community Rank</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="recent-activity">
+                <h2><i class="fas fa-history"></i> Recent Activity</h2>
+                <ul class="activity-list">
+                    <% recentActivity.forEach(activity => { %>
+                        <li>
+                            <% if (activity.constructor.modelName === 'Comment') { %>
+                                <i class="fas fa-comment"></i> Commented on "<%= activity.game.title %>" - <%= activity.createdAt.toDateString() %>
+                            <% } else if (activity.constructor.modelName === 'Suggestion') { %>
+                                <i class="fas fa-lightbulb"></i> Suggested "<%= activity.title %>" - <%= activity.createdAt.toDateString() %>
+                            <% } else if (activity.constructor.modelName === 'Game') { %>
+                                <i class="fas fa-star"></i> Rated "<%= activity.title %>" - <%= activity.ratings.find(r => r.user.toString() === user._id.toString()).rating %> stars - <%= activity.ratings.find(r => r.user.toString() === user._id.toString()).createdAt.toDateString() %>
+                            <% } %>
+                        </li>
+                    <% }); %>
+                </ul>
+            </section>
+
+            <section class="user-suggestions">
+                <h2><i class="fas fa-lightbulb"></i> Your Game Suggestions</h2>
+                <% if (user.suggestions && user.suggestions.length > 0) { %>
+                    <div class="suggestions-grid">
+                        <% user.suggestions.forEach(suggestion => { %>
+                            <div class="suggestion-card">
+                                <img src="<%= suggestion.background_image %>" alt="<%= suggestion.title %>">
+                                <h3><%= suggestion.title %></h3>
+                                <p><strong>Genre:</strong> <%= suggestion.genre %></p>
+                                <p><strong>Upvotes:</strong> <%= suggestion.upvotes ? suggestion.upvotes.length : 0 %></p>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% } else { %>
+                    <p>You haven't made any game suggestions yet.</p>
+                <% } %>
+            </section>
+
+            <section class="edit-profile">
+                <h2><i class="fas fa-edit"></i> Edit Profile</h2>
+                <form action="/profile/update" method="POST">
+                    <div class="form-group">
+                        <label for="bio">Bio:</label>
+                        <textarea id="bio" name="bio" rows="4"><%= user.bio || '' %></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="favoriteGame">Favorite Game:</label>
+                        <input type="text" id="favoriteGame" name="favoriteGame" value="<%= user.favoriteGame || '' %>">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="favoriteGenres">Favorite Genres (comma-separated):</label>
+                        <input type="text" id="favoriteGenres" name="favoriteGenres" value="<%= user.favoriteGenres ? user.favoriteGenres.join(', ') : '' %>">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="preferredPlatform">Preferred Platform:</label>
+                        <input type="text" id="preferredPlatform" name="preferredPlatform" value="<%= user.preferredPlatform || '' %>">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="averageGamingTime">Average Gaming Time (e.g., '2-3 hours daily'):</label>
+                        <input type="text" id="averageGamingTime" name="averageGamingTime" value="<%= user.averageGamingTime || '' %>">
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Update Profile</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Gamer Community. All rights reserved.</p>
+    </footer>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
